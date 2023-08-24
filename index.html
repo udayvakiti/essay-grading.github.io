@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Automated Essay Grading</title>
+</head>
+<body>
+    <h1>Automated Essay Grading</h1>
+    <form action="/grade" method="POST">
+        <textarea name="essay" rows="10" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Grade">
+    </form>
+    {% if grade %}
+        <h2>Grade: {{ grade }}</h2>
+    {% endif %}
+</body>
+</html>
