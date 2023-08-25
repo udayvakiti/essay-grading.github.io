@@ -2,16 +2,43 @@
 <html>
 <head>
     <title>Automated Essay Grading</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script>
+        // Load the TensorFlow.js model
+        let model;
+        async function loadModel() {
+            model = await tf.loadGraphModel('/path/to/model.json');
+        }
+        loadModel();
+
+        // Function to grade the essay
+        async function gradeEssay() {
+            // Get the essay text from the textarea
+            const essayText = document.querySelector('textarea[name="essay"]').value;
+
+            // Preprocess the essay text (tokenization and padding) - You may need to use your tokenizer here
+            const tokenizedEssay = tokenizationAndPadding(essayText);
+
+            // Make a prediction
+            const inputTensor = tf.tensor([tokenizedEssay]);
+            const prediction = model.predict(inputTensor);
+
+            // Get the predicted grade - Adjust this logic based on your model's output
+            const predictedGrade = prediction.dataSync()[0];
+
+            // Display the predicted grade
+            const gradeElement = document.getElementById('grade');
+            gradeElement.innerHTML = `Predicted Grade: ${predictedGrade}`;
+        }
+    </script>
 </head>
 <body>
     <h1>Automated Essay Grading</h1>
-    <form action="/grade" method="POST">
+    <form onsubmit="gradeEssay(); return false;">
         <textarea name="essay" rows="10" cols="50"></textarea>
         <br>
         <input type="submit" value="Grade">
     </form>
-    {% if grade %}
-        <h2>Grade: {{ grade }}</h2>
-    {% endif %}
+    <div id="grade"></div>
 </body>
 </html>
