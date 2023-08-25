@@ -1,53 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head> 
-    <title>Automated Essay Grading by uday</title>
-    <!-- Include TensorFlow.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script>
-        let model;
-
-        // Function to load the TensorFlow.js model
-        async function loadModel() {
-            // Replace 'model.json' with the correct path to your converted model files
-            model = await tf.loadGraphModel('model.json');
-            console.log('Model loaded successfully');
-        }
-        
-        // Call the loadModel function when the page is loaded
-        window.onload = loadModel;
-
-        // Function to grade the essay
-        async function gradeEssay() {
-            // Get the essay text from the textarea
-            const essayText = document.querySelector('textarea[name="essay"]').value;
-
-            // Preprocess the essay text (tokenization and padding) - You may need to use your tokenizer here
-
-            // Tokenization and padding code here...
-
-            // Convert the tokenized and padded essay text to a TensorFlow.js tensor
-            const inputTensor = tf.tensor([tokenizedEssay]);
-
-            // Make a prediction
-            const prediction = await model.predict(inputTensor).data();
-
-            // Get the predicted grade - Adjust this logic based on your model's output
-            const predictedGrade = prediction[0];
-
-            // Display the predicted grade
-            const gradeElement = document.getElementById('grade');
-            gradeElement.innerHTML = `Predicted Grade: ${predictedGrade}`;
-        }
-    </script>
+<head>
+    <title>Image Classification</title>
 </head>
 <body>
-    <h1>Automated Essay Grading</h1>
-    <form onsubmit="gradeEssay(); return false;">
-        <textarea name="essay" rows="10" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Grade">
-    </form>
-    <div id="grade"></div>
+    <h1>Image Classification</h1>
+    <input type="file" accept="image/*" id="imageInput">
+    <button onclick="classifyImage()">Classify</button>
+    <div id="result">Classification result will appear here.</div>
 </body>
 </html>
