@@ -22,7 +22,7 @@ with open('tokenizer.pickle', 'rb') as handle:
 def home():
     return render_template('index.html')
 
-@app.route('/grade', methods=['POST'])
+@app.route('/grade')
 def grade():
     essay = request.form['essay']
 
