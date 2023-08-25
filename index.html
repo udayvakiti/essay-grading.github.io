@@ -2,14 +2,20 @@
 <html>
 <head>
     <title>Automated Essay Grading</title>
+    <!-- Include TensorFlow.js library -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script>
-        // Load the TensorFlow.js model
         let model;
+
+        // Function to load the TensorFlow.js model
         async function loadModel() {
-            model = await tf.loadGraphModel(model.json);
+            // Replace 'model.json' with the correct path to your converted model files
+            model = await tf.loadGraphModel('model.json');
+            console.log('Model loaded successfully');
         }
-        loadModel();
+        
+        // Call the loadModel function when the page is loaded
+        window.onload = loadModel;
 
         // Function to grade the essay
         async function gradeEssay() {
@@ -17,14 +23,17 @@
             const essayText = document.querySelector('textarea[name="essay"]').value;
 
             // Preprocess the essay text (tokenization and padding) - You may need to use your tokenizer here
-            const tokenizedEssay = tokenizationAndPadding(essayText);
+
+            // Tokenization and padding code here...
+
+            // Convert the tokenized and padded essay text to a TensorFlow.js tensor
+            const inputTensor = tf.tensor([tokenizedEssay]);
 
             // Make a prediction
-            const inputTensor = tf.tensor([tokenizedEssay]);
-            const prediction = model.predict(inputTensor);
+            const prediction = await model.predict(inputTensor).data();
 
             // Get the predicted grade - Adjust this logic based on your model's output
-            const predictedGrade = prediction.dataSync()[0];
+            const predictedGrade = prediction[0];
 
             // Display the predicted grade
             const gradeElement = document.getElementById('grade');
